@@ -36,7 +36,7 @@ class AppBloc extends Bloc<AppAction, AppState> {
     });
 
     on<LoadNotesAction>(
-      (event, emit) {
+      (event, emit) async {
         //start loading
         emit(
            AppState(
@@ -61,7 +61,15 @@ class AppBloc extends Bloc<AppAction, AppState> {
         }
           // we have valid login handle and want to fetch notes
 
-          
+          final notes = await notesapi.getNote(loginhandle: loginhandle!,);
+          emit(
+           AppState(
+            isLoading: false,
+            fetchNotes: notes,
+            loginError: null,
+            loginHandle: loginhandle ,    
+          ),
+        );
       
       },
     );
